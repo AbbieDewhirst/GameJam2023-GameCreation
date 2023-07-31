@@ -135,6 +135,7 @@ public class PlayfabManager : MonoBehaviour
         {
             StatisticName = "Losses",
             StartPosition = 0,
+            
             MaxResultsCount = 30
         };
         PlayFabClientAPI.GetLeaderboard(requestLosses, OnLeaderBoardGetLosses, onError);
@@ -165,7 +166,6 @@ public class PlayfabManager : MonoBehaviour
 
     void OnLeaderBoardGetWin(GetLeaderboardResult result)
     {
-
         if(UI_Manager.instance.leaderBoardParent.childCount > 0)
         {
             for (int i = 0; i < UI_Manager.instance.leaderBoardParent.childCount; i++)
@@ -173,8 +173,9 @@ public class PlayfabManager : MonoBehaviour
                 Destroy(UI_Manager.instance.leaderBoardParent.GetChild(i).gameObject);
             }
         }      
+        List<PlayerLeaderboardEntry> lossLeaderboard = result.Leaderboard;
         
-        foreach (var item in result.Leaderboard)
+        foreach (var item in lossLeaderboard)
         {
             GameObject boardObj = Instantiate(UI_Manager.instance.leaderBoardPrefab, UI_Manager.instance.leaderBoardParent);
             boardObj.GetComponent<leaderBoardItem>().id.text = item.DisplayName;
